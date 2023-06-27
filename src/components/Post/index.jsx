@@ -1,29 +1,43 @@
+/* eslint-disable react/prop-types */
 import { Avatar } from '../Avatar'
 import { Comments } from '../Comments'
 import styles from './Post.module.css'
 
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
-export function Post() {
+export function Post({author, publishedAt}) {
+  const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR,
+  });
 
-
-
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  });
+ 
   return(
     <article className={styles.post}>
       <header>
           <div className={styles.author}>
-            <Avatar className={styles.avatar} src='https://avatars.githubusercontent.com/u/27393649?v=4' />
+            <Avatar  
+              src={author.avatarUrl}
+            />
               <div className={styles.authorInfo}>
-                <strong>Thiago morgado</strong>
-                <span>Web Developer</span>
+                <strong>{author.name}</strong>
+                <span>{author.role}</span>
               </div>
             </div>
 
-            <time title='22 de julho as 19:00' dateTime="2023-06- 18:00:00h">Publicado a 1h</time>
+            <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:00">Publicado há 1h</time>
+            <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+              {publishedDateRelativeToNow}
+            </time>
           </header>
           
         
         <div className={styles.content}>
-          <p>Fala galeraa 👋</p>
+        <p>Fala galeraa 👋</p>
           <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
           <p>{' '}👉<a href="http://"> jane.design/doctorcare</a></p>
           <p>
